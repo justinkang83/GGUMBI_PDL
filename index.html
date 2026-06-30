@@ -1,1 +1,268 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>꿈비 신상품개발연구소</title><style>:root{--bg:#080d15;--card:#121a27;--line:#243244;--text:#f8fafc;--sub:#94a3b8;--blue:#2563eb;--green:#16a34a;--red:#ef4444;--yellow:#f59e0b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Apple SD Gothic Neo,Pretendard,Arial,sans-serif}.login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#07101f,#151538)}.login-box{width:min(430px,90vw);background:rgba(18,26,39,.92);border:1px solid var(--line);border-radius:24px;padding:34px}.login h1{text-align:center}.login p{color:var(--sub);text-align:center}.login input{width:100%;padding:15px;margin:8px 0;border-radius:12px;border:1px solid #334155;background:#111827;color:#fff}.btn,.login button{border:0;border-radius:12px;padding:13px 15px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;font-weight:900;cursor:pointer}.login button{width:100%;margin-top:10px}.app{display:none;grid-template-columns:260px 1fr;min-height:100vh}.show{display:grid}aside{background:var(--card);border-right:1px solid var(--line);padding:26px 18px;position:sticky;top:0;height:100vh}.logo{display:flex;gap:12px;align-items:center;margin-bottom:28px}.mark{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#2563eb,#22d3ee);display:grid;place-items:center;font-weight:900}.logo b{display:block}.logo small{color:var(--sub)}nav a{display:block;color:var(--sub);text-decoration:none;font-weight:800;padding:13px;border-radius:14px;margin:6px 0}nav a:hover,nav a.active{background:linear-gradient(135deg,#2563eb,#0ea5e9);color:#fff}main{padding:28px}header{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:22px}h1,h2,h3{margin:0}.muted{color:var(--sub);font-size:13px}.grid{display:grid;gap:18px}.kpis{grid-template-columns:repeat(7,1fr)}.two{grid-template-columns:1.1fr .9fr;margin-top:18px}.three{grid-template-columns:1fr 1fr 1fr;margin-top:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:21px}.kpi small{color:var(--sub);font-weight:800}.kpi strong{display:block;font-size:28px;margin-top:8px}table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--line);padding:11px 9px;text-align:left;white-space:nowrap}th{font-size:12px;color:var(--sub)}.wrap{overflow:auto}.bar{height:8px;background:rgba(148,163,184,.25);border-radius:999px;overflow:hidden;margin-top:7px}.bar i{display:block;height:100%;background:#2563eb}.pill{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900;background:rgba(37,99,235,.15);color:#60a5fa}.risk{background:rgba(245,158,11,.15);color:#fbbf24}.done{background:rgba(22,163,74,.15);color:#4ade80}.bad{color:#f87171}.good{color:#4ade80}.chart{height:210px;display:flex;align-items:end;gap:12px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0 0 10px}.chart i{flex:1;min-height:10px;background:linear-gradient(180deg,#16a34a,rgba(22,163,74,.18));border-radius:10px 10px 0 0;position:relative}.chart span{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--sub)}.notice{display:none;background:rgba(245,158,11,.12);color:#fbbf24;padding:12px;border-radius:14px;margin-bottom:18px}@media(max-width:1200px){.kpis{grid-template-columns:1fr 1fr 1fr}.two,.three{grid-template-columns:1fr}}@media(max-width:800px){.app{grid-template-columns:1fr}aside{height:auto;position:relative}header{display:block}.kpis{grid-template-columns:1fr}}</style></head><body><section class="login" id="login"><div class="login-box"><h1>꿈비 신상품개발연구소</h1><p>Project / sales 탭 자동 연동</p><input id="id" placeholder="아이디"><input id="pw" type="password" placeholder="비밀번호"><button onclick="doLogin()">로그인</button><p id="err" style="color:#fca5a5"></p><p class="muted">ID ggumbi / PW hihi</p></div></section><div class="app" id="app"><aside><div class="logo"><div class="mark">G</div><div><b>GGUMBI</b><small>Live Dashboard</small></div></div><nav><a class="active" href="#summary">🏠 요약</a><a href="#projects">📊 상품 진행</a><a href="#cost">💵 원가 관리</a><a href="#sales">💰 매출</a><a href="#issues">⚠️ 이슈</a></nav></aside><main><header><div><h1>꿈비 신상품개발연구소 대시보드</h1><p class="muted">Google Sheets의 Project 탭과 sales 탭을 각각 읽어 대시보드를 구성합니다.</p></div><div><button class="btn" onclick="loadData()">데이터 새로고침</button> <button class="btn" onclick="logout()">로그아웃</button></div></header><div id="notice" class="notice"></div><section class="grid kpis" id="summary"><div class="card kpi"><small>전체 상품</small><strong id="tTotal">-</strong></div><div class="card kpi"><small>진행 중</small><strong id="tProgress">-</strong></div><div class="card kpi"><small>런칭 완료</small><strong id="tLaunch">-</strong></div><div class="card kpi"><small>누적매출</small><strong id="tSales">-</strong></div><div class="card kpi"><small>평균 원가율</small><strong id="tCost">-</strong></div><div class="card kpi"><small>평균 진행률</small><strong id="tAvg">-</strong></div><div class="card kpi"><small>위험/이슈</small><strong id="tRisk">-</strong></div></section><section class="grid three"><div class="card"><h3>보고용 핵심 요약</h3><p id="summaryText" class="muted"></p><h2 id="summarySales"></h2></div><div class="card"><h3>브랜드별 누적매출</h3><table><thead><tr><th>브랜드</th><th>누적매출</th></tr></thead><tbody id="brandBody"></tbody></table></div><div class="card" id="issues"><h3>주요 이슈</h3><table><thead><tr><th>상품명</th><th>이슈</th></tr></thead><tbody id="issueBody"></tbody></table></div></section><section class="grid two" id="projects"><div class="card"><h3>상품별 진행 상황</h3><div class="wrap"><table><thead><tr><th>브랜드</th><th>상품명</th><th>단계</th><th>진행률</th><th>런칭일</th><th>상태</th><th>이슈</th></tr></thead><tbody id="projectBody"></tbody></table></div></div><div class="card"><h3>진행률 그래프</h3><div id="progressList"></div></div></section><section class="grid two" id="cost"><div class="card"><h3>원가 관리</h3><div class="wrap"><table><thead><tr><th>브랜드</th><th>상품명</th><th>MOQ</th><th>단가</th><th>수입원가</th><th>판매원가</th><th>판가</th><th>원가율</th></tr></thead><tbody id="costBody"></tbody></table></div></div><div class="card"><h3>원가율 관리 대상</h3><table><thead><tr><th>상품명</th><th>원가율</th><th>판가</th></tr></thead><tbody id="costRiskBody"></tbody></table></div></section><section class="grid two" id="sales"><div class="card"><h3>월별 누적매출</h3><div class="chart" id="salesChart"></div></div><div class="card"><h3>상품별 누적매출</h3><table><thead><tr><th>상품명</th><th>누적매출</th><th>비중</th></tr></thead><tbody id="salesBody"></tbody></table></div></section></main></div><script>const ID='ggumbi',PW='hihi',SHEET_ID='1RjwacSKp30pA-W3swCD8-kPxgfBVflGu70bJnF8ON4w';const months=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];const projectSample=[{브랜드:'꿈비',상품명:'젖병살균세척기 T2',단계:'개발/인증',진행률:'80',런칭일:'2026-10-30',상태:'진행',이슈:'EMC 일정 관리',MOQ:'3000',단가:'30',수입원가:'45853',판매원가:'55200',판가:'99000',원가율:'55.8%'}];const salesSample=[{브랜드:'꿈비',상품명:'젖병살균세척기 T2','4월':'80000000','5월':'90000000',누적매출:'170000000'}];function doLogin(){if(id.value.trim()===ID&&pw.value===PW){localStorage.setItem('ggumbi_login','yes');show()}else err.textContent='아이디 또는 비밀번호가 맞지 않습니다.'}function show(){login.style.display='none';app.classList.add('show');loadData()}function logout(){localStorage.removeItem('ggumbi_login');location.reload()}function csvUrl(sheet){return`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheet)}`}function parseCSV(t){const rows=[];let r=[],c='',q=false;for(let i=0;i<t.length;i++){const x=t[i],n=t[i+1];if(x==='"'&&q&&n==='"'){c+='"';i++}else if(x==='"')q=!q;else if(x===','&&!q){r.push(c);c=''}else if((x==='\n'||x==='\r')&&!q){if(c||r.length){r.push(c);rows.push(r);r=[];c=''}if(x==='\r'&&n==='\n')i++}else c+=x}if(c||r.length){r.push(c);rows.push(r)}const h=(rows.shift()||[]).map(v=>v.trim());return rows.filter(r=>r.some(Boolean)).map(r=>Object.fromEntries(h.map((k,i)=>[k,(r[i]||'').trim()]))) }async function getSheet(sheet,fallback){try{const res=await fetch(csvUrl(sheet),{cache:'no-store'});if(!res.ok)throw Error();const txt=await res.text();if(txt.includes('<html'))throw Error();const data=parseCSV(txt);if(!data.length)throw Error();return data}catch(e){notice.style.display='block';notice.textContent='Project 또는 sales 탭을 읽지 못해 예시 데이터가 표시됩니다. 공유 권한과 탭명(Project, sales)을 확인해주세요.';return fallback}}async function loadData(){notice.style.display='none';const projects=await getSheet('Project',projectSample);const sales=await getSheet('sales',salesSample);render(projects,sales)}function n(v){return Number(String(v||'').replace(/[^0-9.\-]/g,''))||0}function key(p){return String(p.브랜드||'')+'__'+String(p.상품명||p.상품||p.프로젝트||'')}function item(p){return p.상품명||p.상품||p.프로젝트||''}function step(p){return p.단계||p.개발단계||''}function saleRow(s){return n(s.누적매출)||months.reduce((a,m)=>a+n(s[m])+n(s[m+' 매출']),0)}function rate(p){let r=n(p.원가율);return r||((n(p.판매원가)||n(p.수입원가))&&n(p.판가)?(n(p.판매원가)||n(p.수입원가))/n(p.판가)*100:0)}function won(v){return n(v)?Math.round(n(v)).toLocaleString()+'원':'-'}function eok(v){return n(v)?(n(v)/100000000).toFixed(1)+'억':'-'}function cls(s){s=String(s||'');return s.includes('완료')||s.includes('런칭')?'pill done':s.includes('이슈')||s.includes('지연')||s.includes('위험')?'pill risk':'pill'}function render(projects,sales){const salesMap=Object.fromEntries(sales.map(s=>[key(s),s]));const total=projects.length,launched=projects.filter(p=>String(p.상태+step(p)).includes('런칭')||String(p.상태).includes('완료')).length,risk=projects.filter(p=>String(p.상태+p.이슈).includes('이슈')||String(p.상태+p.이슈).includes('지연')).length,avg=Math.round(projects.reduce((a,p)=>a+n(p.진행률),0)/(total||1)),avgCost=(projects.reduce((a,p)=>a+rate(p),0)/(total||1)).toFixed(1),totalSales=sales.reduce((a,s)=>a+saleRow(s),0);tTotal.textContent=total;tProgress.textContent=total-launched;tLaunch.textContent=launched;tSales.textContent=eok(totalSales);tCost.textContent=avgCost+'%';tAvg.textContent=avg+'%';tRisk.textContent=risk;summarySales.textContent='누적매출 '+eok(totalSales);summaryText.textContent=`총 ${total}개 상품 관리 중, 런칭 완료 ${launched}건, 리스크 ${risk}건입니다. 평균 진행률 ${avg}%, 평균 원가율 ${avgCost}%입니다.`;projectBody.innerHTML=projects.map(p=>`<tr><td>${p.브랜드||''}</td><td>${item(p)}</td><td>${step(p)}</td><td>${n(p.진행률)}%<div class="bar"><i style="width:${n(p.진행률)}%"></i></div></td><td>${p.런칭일||''}</td><td><span class="${cls(p.상태)}">${p.상태||''}</span></td><td>${p.이슈||''}</td></tr>`).join('');progressList.innerHTML=projects.map(p=>`<p><b>${item(p)}</b> <span class="muted">${n(p.진행률)}%</span></p><div class="bar"><i style="width:${n(p.진행률)}%;background:${n(p.진행률)>70?'var(--green)':n(p.진행률)>40?'var(--blue)':'var(--yellow)'}"></i></div>`).join('');const sorted=[...sales].sort((a,b)=>saleRow(b)-saleRow(a));salesBody.innerHTML=sorted.map(s=>`<tr><td>${item(s)}</td><td>${eok(saleRow(s))}</td><td>${totalSales?Math.round(saleRow(s)/totalSales*100):0}%</td></tr>`).join('');const brand={};sales.forEach(s=>brand[s.브랜드||'미지정']=(brand[s.브랜드||'미지정']||0)+saleRow(s));brandBody.innerHTML=Object.entries(brand).map(([b,v])=>`<tr><td>${b}</td><td>${eok(v)}</td></tr>`).join('');issueBody.innerHTML=projects.filter(p=>p.이슈).map(p=>`<tr><td>${item(p)}</td><td>${p.이슈}</td></tr>`).join('');costBody.innerHTML=projects.map(p=>`<tr><td>${p.브랜드||''}</td><td>${item(p)}</td><td>${n(p.MOQ).toLocaleString()}</td><td>${p.단가||p['EXW단가($)']||'-'}</td><td>${won(p.수입원가)}</td><td>${won(p.판매원가)}</td><td>${won(p.판가||p.소비자가)}</td><td class="${rate(p)>=60?'bad':'good'}"><b>${rate(p)?rate(p).toFixed(1)+'%':'-'}</b></td></tr>`).join('');costRiskBody.innerHTML=projects.filter(p=>rate(p)>=60).map(p=>`<tr><td>${item(p)}</td><td class="bad"><b>${rate(p).toFixed(1)}%</b></td><td>${won(p.판가||p.소비자가)}</td></tr>`).join('')||'<tr><td colspan="3" class="good">원가율 60% 이상 상품 없음</td></tr>';let cum=0,vals=months.map(m=>cum+=sales.reduce((a,s)=>a+n(s[m])+n(s[m+' 매출']),0)),max=Math.max(...vals,1);salesChart.innerHTML=vals.map((v,i)=>`<i style="height:${Math.max(8,v/max*100)}%"><span>${i+1}월</span></i>`).join('')}document.addEventListener('keydown',e=>{if(e.key==='Enter'&&login.style.display!=='none')doLogin()});if(localStorage.getItem('ggumbi_login')==='yes')show();</script></body></html>
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>꿈비 신상품개발연구소 프로젝트 진행현황</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <section id="loginScreen" class="login-screen" aria-label="로그인">
+      <div class="login-art">
+        <div class="login-copy">
+          <span>Ggumbi NPD Lab</span>
+          <h1>꿈비 신상품개발연구소 프로젝트 진행현황</h1>
+          <p>신상품 개발 현황, 런칭 일정, 매출 성과를 한 화면에서 확인합니다.</p>
+        </div>
+      </div>
+      <div class="login-side">
+        <div class="login-icon" aria-hidden="true"></div>
+        <h2>꿈비 신상품개발연구소 프로젝트 진행현황</h2>
+        <p>로그인이 필요합니다</p>
+
+        <form id="loginForm" class="login-card">
+          <div class="login-tabs" aria-label="로그인 유형">
+            <button type="button" class="active">로그인</button>
+            <button type="button">회원가입</button>
+          </div>
+          <label>
+            아이디
+            <input id="loginId" name="loginId" autocomplete="username" placeholder="아이디" required />
+          </label>
+          <label>
+            비밀번호
+            <input id="loginPassword" name="loginPassword" type="password" autocomplete="current-password" placeholder="비밀번호" required />
+          </label>
+          <button class="primary-button" type="submit">로그인</button>
+          <small id="loginHint">지정된 계정으로 로그인하세요.</small>
+        </form>
+      </div>
+    </section>
+
+    <div id="appShell" class="app-shell" hidden>
+      <aside class="sidebar">
+        <div class="brand">
+          <img class="brand-logo" src="assets/ggumbi-logo.png" alt="GGUMBI" />
+          <div>
+            <strong>꿈비</strong>
+            <span>신상품개발연구소</span>
+          </div>
+        </div>
+        <nav class="side-nav" aria-label="대시보드 항목">
+          <button class="nav-item active" type="button" data-target="summarySection">💰 핵심요약</button>
+          <button class="nav-item" type="button" data-target="salesSection">📈 신상품 매출 보고</button>
+          <button class="nav-item" type="button" data-target="scheduleSection">📅 일정 관리 현황</button>
+          <button class="nav-item" type="button" data-target="progressSection">📊 상품별 진행 현황</button>
+          <button class="nav-item" type="button" data-target="ownerSection">👥 담당자별 진행 현황</button>
+        </nav>
+        <section class="side-summary" aria-label="핵심 요약">
+          <article>
+            <span>💰 올해 누적매출</span>
+            <strong id="sideRevenue">0원</strong>
+          </article>
+          <article>
+            <span>🚀 런칭 완료 상품</span>
+            <strong id="sideLaunched">0개</strong>
+          </article>
+          <article>
+            <span>📦 개발 진행 상품</span>
+            <strong id="sideActive">0개</strong>
+          </article>
+          <article>
+            <span>📅 이번 달 주요 일정</span>
+            <ul id="sideSchedule"></ul>
+          </article>
+        </section>
+        <button id="logoutButton" class="logout-button" type="button">로그아웃</button>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <div>
+            <p id="dataStatus">Google Sheets 연결 중</p>
+            <h1>신상품개발연구소 프로젝트 진행현황</h1>
+          </div>
+          <div class="top-actions">
+            <span id="updatedAt">데이터 기준 -</span>
+            <a href="https://docs.google.com/spreadsheets/d/1RjwacSKp30pA-W3swCD8-kPxgfBVflGu70bJnF8ON4w/edit" target="_blank" rel="noreferrer">원본 시트</a>
+            <button id="refreshData" type="button">새로고침</button>
+            <button id="resetFilters" type="button">필터 초기화</button>
+          </div>
+        </header>
+
+        <section class="filters" aria-label="대시보드 필터">
+          <label>
+            브랜드
+            <select id="brandFilter"></select>
+          </label>
+          <label>
+            월
+            <select id="monthFilter"></select>
+          </label>
+          <label class="search-filter">
+            품목
+            <input id="searchInput" type="search" placeholder="상품명 입력" />
+          </label>
+        </section>
+
+        <section id="summarySection" class="hero-grid report-section">
+          <article class="hero-card">
+            <span>전체 진행 상품</span>
+            <strong id="kpiProjects">0</strong>
+            <small id="kpiActive">개발 진행 중 0개</small>
+          </article>
+          <article class="hero-card">
+            <span>런칭 완료</span>
+            <strong id="kpiLaunched">0</strong>
+            <small id="kpiLaunchRate">런칭 비중 0%</small>
+          </article>
+          <article class="hero-card accent">
+            <span>💰 올해 누적매출</span>
+            <strong id="kpiRevenue">0원</strong>
+            <small id="kpiRevenueText">올해 누적 0원</small>
+          </article>
+          <article class="hero-card">
+            <span>평균 원가율</span>
+            <strong id="kpiCostRate">0%</strong>
+            <small id="kpiCostWatch">관리 대상 0개</small>
+          </article>
+        </section>
+
+        <section class="main-grid">
+          <article id="salesSection" class="panel wide report-section">
+            <div class="panel-head">
+              <div>
+                <h2>💰 올해 누적매출</h2>
+                <p>월별 매출 흐름과 상품/브랜드별 기여도를 함께 봅니다.</p>
+              </div>
+              <span id="salesTotal">합계 0원</span>
+            </div>
+            <div id="monthlyChart" class="bar-chart"></div>
+            <div class="sales-breakdown">
+              <section>
+                <h3>상품별</h3>
+                <div id="productSales" class="mini-list"></div>
+              </section>
+              <section>
+                <h3>브랜드별</h3>
+                <div id="brandSales" class="mini-list"></div>
+              </section>
+              <section>
+                <h3>월별</h3>
+                <div id="monthSales" class="mini-list"></div>
+              </section>
+            </div>
+          </article>
+
+          <article class="panel sales-top-panel">
+            <div class="panel-head">
+              <div>
+                <h2>💵 매출 발생 품목</h2>
+                <p>매출이 발생한 품목을 금액 큰 순서대로 표시합니다.</p>
+              </div>
+            </div>
+            <div id="topProducts" class="top-list"></div>
+          </article>
+
+          <article id="scheduleSection" class="panel report-section">
+            <div class="panel-head">
+              <div>
+                <h2>📋 이번 달 주요 보고 사항</h2>
+                <p>런칭, 양산/입고, 인증, 원가율, 매출 이슈를 자동 요약합니다.</p>
+              </div>
+            </div>
+            <div id="monthReport" class="report-board"></div>
+          </article>
+
+          <article class="panel pipeline-panel">
+            <div class="panel-head">
+              <div>
+                <h2>🚀 런칭 완료 / 📦 개발 진행</h2>
+                <p>단계별 상품 수와 주요 품목을 관리합니다.</p>
+              </div>
+              <span id="stageCount">0개 단계</span>
+            </div>
+            <div id="pipelineBoard" class="pipeline-board"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>원가율 분포</h2>
+                <p>상품별 원가율을 구간별로 관리합니다.</p>
+              </div>
+              <span id="costBandCount">0개</span>
+            </div>
+            <div id="costBandBoard" class="cost-band-board"></div>
+          </article>
+
+          <article class="panel wide">
+            <div class="panel-head">
+              <div>
+                <h2>🗓️ 전체 상품 런칭월 맵</h2>
+                <p>월별 런칭 예정 품목을 이미지 기준으로 한눈에 확인합니다.</p>
+              </div>
+              <a class="panel-link" href="assets/launch-calendar-map.png" target="_blank" rel="noreferrer">크게 보기</a>
+            </div>
+            <a class="launch-map" href="assets/launch-calendar-map.png" target="_blank" rel="noreferrer">
+              <img src="assets/launch-calendar-map.png" alt="전체 상품별 런칭월 정리 이미지" />
+            </a>
+          </article>
+
+          <article class="panel wide">
+            <div class="panel-head">
+              <div>
+                <h2>📅 런칭 캘린더</h2>
+                <p>런칭 예정일 기준 전체 일정입니다.</p>
+              </div>
+            </div>
+            <div id="launchList" class="launch-list calendar-list"></div>
+          </article>
+
+          <article id="progressSection" class="panel table-panel report-section">
+            <div class="panel-head">
+              <div>
+                <h2>📊 상품별 진행 현황</h2>
+                <p>진행률, 담당자, 인증, 양산, 런칭 예정일을 관리합니다.</p>
+              </div>
+              <span id="tableCount">0개</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>브랜드</th>
+                    <th>상품명</th>
+                    <th>담당자</th>
+                    <th>개발단계</th>
+                    <th>진행률</th>
+                    <th>인증 캘린더</th>
+                    <th>양산 캘린더</th>
+                    <th>런칭 예정일</th>
+                    <th>누적매출</th>
+                    <th>원가율</th>
+                  </tr>
+                </thead>
+                <tbody id="productTable"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article id="ownerSection" class="panel wide report-section">
+            <div class="panel-head">
+              <div>
+                <h2>👥 담당자별 진행 현황</h2>
+                <p>담당자별 품목 수, 평균 진행률, 단계별 업무량을 확인합니다.</p>
+              </div>
+              <span id="ownerCount">0명</span>
+            </div>
+            <div id="ownerBoard" class="owner-board"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="data/dashboard-data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
