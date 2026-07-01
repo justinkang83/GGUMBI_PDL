@@ -426,8 +426,8 @@ function renderSchedules(items) {
   const nowMonth = new Date().getMonth() + 1;
   const monthLabel = `${nowMonth}월`;
   const launchThisMonth = items
-    .filter((item) => item["개발단계"] !== "런칭" && (isCurrentMonthOrSoon(item["런칭일"]) || isCurrentMonthOrSoon(item["예상입고일"])))
-    .sort((a, b) => String(a["런칭일"] || a["예상입고일"]).localeCompare(String(b["런칭일"] || b["예상입고일"])));
+    .filter((item) => item["개발단계"] !== "런칭" && isCurrentMonthOrSoon(item["런칭일"]))
+    .sort((a, b) => String(a["런칭일"]).localeCompare(String(b["런칭일"])));
   const productionThisMonth = items
     .filter((item) => item["개발단계"] !== "런칭" && isCurrentMonthOrSoon(item["예상입고일"]))
     .sort((a, b) => String(a["예상입고일"]).localeCompare(String(b["예상입고일"])));
@@ -440,7 +440,7 @@ function renderSchedules(items) {
       title: "런칭 예정",
       count: launchThisMonth.length,
       tone: "blue",
-      rows: launchThisMonth.map((item) => `${item["예상입고일"] || item["런칭일"]} 입고 · ${item["상품명"]} · 런칭 예정`),
+      rows: launchThisMonth.map((item) => `${item["런칭일"]} 런칭 · ${item["상품명"]}`),
     },
     {
       title: "양산/입고 예정",
