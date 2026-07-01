@@ -346,10 +346,7 @@ function renderMonthlySales(items) {
   );
   const total = monthlyRows.reduce((sum, item) => sum + (Number(item["누적매출"]) || 0), 0);
   $("salesTotal").textContent = `합계 ${money(total)}`;
-  $("monthlyChart").innerHTML = `<div class="sales-chart-legend">
-      <span><i class="legend-actual"></i>실매출</span>
-      <span><i class="legend-target"></i>목표매출</span>
-    </div>` + monthlyRows
+  $("monthlyChart").innerHTML = monthlyRows
     .map((item) => {
       const value = Number(item["누적매출"]) || 0;
       const target = Number(item["목표매출"]) || 0;

@@ -1009,16 +1009,16 @@ select,
   display: grid;
   grid-template-columns: repeat(12, minmax(34px, 1fr));
   align-items: end;
-  gap: 12px 10px;
-  padding: 16px 0 0;
+  gap: 10px;
+  padding: 12px 0 0;
 }
 
 .sales-chart-legend {
-  grid-column: 1 / -1;
   display: flex;
   justify-content: flex-end;
   gap: 14px;
-  justify-self: end;
+  width: fit-content;
+  margin: 8px 0 0 auto;
   border: 1px solid #e3ebe9;
   border-radius: 999px;
   padding: 6px 9px;
