@@ -380,12 +380,12 @@ function renderCostInsight() {
     <section class="cost-insight-card">
       <div class="cost-insight-summary">
         <span>상승 환율 반영</span>
-        <strong>수입원가 소폭 상승</strong>
-        <em>환율 변동 영향</em>
+        <strong>수입원가 상승 반영</strong>
+        <em>5월 대비 6월 환율 기준</em>
       </div>
       <div class="cost-insight-list">
         <h3>관리 포인트</h3>
-        <p>상승한 환율을 적용하면서 일부 품목의 수입원가가 소폭 상승한 부분이 원가율에 반영되었습니다.</p>
+        <p>5월 환율 대비 6월 환율 상승폭을 적용한 수입원가 변동분이 원가율에 반영되었습니다.</p>
       </div>
     </section>
     <section class="cost-insight-card">
