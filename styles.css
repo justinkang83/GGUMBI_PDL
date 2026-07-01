@@ -854,18 +854,32 @@ select,
 }
 
 .sales-growth {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
   margin-top: 12px;
+}
+
+.sales-growth-title {
+  grid-column: 1 / -1;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 900;
 }
 
 .sales-growth-card {
   display: grid;
-  grid-template-columns: auto auto 1fr auto;
-  align-items: center;
-  gap: 12px;
+  grid-template-columns: minmax(150px, 0.72fr) minmax(180px, 1fr);
+  gap: 16px;
   border: 1px solid #dbe9e6;
   border-radius: 8px;
-  padding: 12px 14px;
+  padding: 14px;
   background: linear-gradient(135deg, #f6fbff, #f4fffb);
+}
+
+.growth-summary,
+.growth-contributors {
+  min-width: 0;
 }
 
 .sales-growth-card span {
@@ -875,8 +889,10 @@ select,
 }
 
 .sales-growth-card strong {
+  display: block;
+  margin-top: 8px;
   color: #078064;
-  font-size: 22px;
+  font-size: 24px;
   line-height: 1;
 }
 
@@ -886,6 +902,8 @@ select,
 
 .sales-growth-card em,
 .sales-growth-card b {
+  display: block;
+  margin-top: 8px;
   font-style: normal;
   font-size: 13px;
 }
@@ -895,8 +913,50 @@ select,
 }
 
 .sales-growth-card b {
-  justify-self: end;
   color: #126456;
+}
+
+.growth-contributors {
+  border-left: 1px solid #dbe9e6;
+  padding-left: 16px;
+}
+
+.growth-contributors h3 {
+  margin: 0 0 10px;
+  font-size: 13px;
+}
+
+.growth-contributors p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.growth-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 0;
+  border-top: 1px solid #edf3f1;
+}
+
+.growth-row:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.growth-row span {
+  overflow: hidden;
+  color: var(--ink);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.growth-row strong {
+  margin: 0;
+  font-size: 13px;
+  white-space: nowrap;
 }
 
 .sales-breakdown {
@@ -1134,6 +1194,7 @@ th {
   .filters,
   .main-grid,
   .pipeline-board,
+  .sales-growth,
   .sales-breakdown,
   .calendar-list,
   .owner-board {
@@ -1192,5 +1253,12 @@ th {
 
   .sales-growth-card b {
     justify-self: start;
+  }
+
+  .growth-contributors {
+    border-left: 0;
+    border-top: 1px solid #dbe9e6;
+    padding-top: 12px;
+    padding-left: 0;
   }
 }

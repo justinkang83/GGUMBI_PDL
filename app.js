@@ -245,15 +245,56 @@ function monthlySalesFromProjects(items) {
   });
 }
 
+function salesInsight(items, fromMonth, toMonth) {
+  const fromKey = `${fromMonth}월 매출`;
+  const toKey = `${toMonth}월 매출`;
+  const fromTotal = items.reduce((sum, item) => sum + (Number(item[fromKey]) || 0), 0);
+  const toTotal = items.reduce((sum, item) => sum + (Number(item[toKey]) || 0), 0);
+  const amount = toTotal - fromTotal;
+  const rate = fromTotal ? (amount / fromTotal) * 100 : 0;
+  const contributors = [...items]
+    .map((item) => ({
+      name: item["상품명"],
+      brand: item["브랜드"] || "-",
+      amount: (Number(item[toKey]) || 0) - (Number(item[fromKey]) || 0),
+    }))
+    .filter((item) => item.amount > 0)
+    .sort((a, b) => b.amount - a.amount)
+    .slice(0, 3);
+
+  return { fromMonth, toMonth, fromTotal, toTotal, amount, rate, contributors };
+}
+
+function renderSalesInsightCard(insight) {
+  const tone = insight.amount >= 0 ? "up" : "down";
+  const medals = ["🥇", "🥈", "🥉"];
+  return `<section class="sales-growth-card ${tone}">
+    <div class="growth-summary">
+      <span>${insight.fromMonth}월 → ${insight.toMonth}월</span>
+      <strong>${insight.amount >= 0 ? "▲ +" : "▼ "}${percent(Math.abs(insight.rate))}</strong>
+      <em>${shortMoney(insight.fromTotal)} → ${shortMoney(insight.toTotal)}</em>
+      <b>${insight.amount >= 0 ? "+" : "-"}${money(Math.abs(insight.amount))} ${insight.amount >= 0 ? "증가" : "감소"}</b>
+    </div>
+    <div class="growth-contributors">
+      <h3>기여 TOP3</h3>
+      ${
+        insight.contributors.length
+          ? insight.contributors
+              .map((item, index) => `<div class="growth-row">
+                <span>${medals[index]} ${item.name}</span>
+                <strong>+${money(item.amount)}</strong>
+              </div>`)
+              .join("")
+          : "<p>증가 기여 품목 없음</p>"
+      }
+    </div>
+  </section>`;
+}
+
 function renderMonthlySales(items) {
   const monthlyRows = monthlySalesFromProjects(items);
   const max = Math.max(...monthlyRows.map((item) => Number(item["누적매출"]) || 0), 1);
   const total = monthlyRows.reduce((sum, item) => sum + (Number(item["누적매출"]) || 0), 0);
-  const aprilSales = Number(monthlyRows[3]?.["누적매출"]) || 0;
-  const maySales = Number(monthlyRows[4]?.["누적매출"]) || 0;
-  const growthAmount = maySales - aprilSales;
-  const growthRate = aprilSales ? (growthAmount / aprilSales) * 100 : 0;
-  const growthTone = growthAmount >= 0 ? "up" : "down";
   $("salesTotal").textContent = `합계 ${money(total)}`;
   $("monthlyChart").innerHTML = monthlyRows
     .map((item) => {
@@ -266,12 +307,8 @@ function renderMonthlySales(items) {
       </div>`;
     })
     .join("");
-  $("salesGrowth").innerHTML = `<div class="sales-growth-card ${growthTone}">
-    <span>4월 → 5월 매출 증감</span>
-    <strong>${growthAmount >= 0 ? "+" : ""}${percent(growthRate)}</strong>
-    <em>${shortMoney(aprilSales)} → ${shortMoney(maySales)}</em>
-    <b>${growthAmount >= 0 ? "+" : ""}${money(growthAmount)} ${growthAmount >= 0 ? "증가" : "감소"}</b>
-  </div>`;
+  $("salesGrowth").innerHTML = `<div class="sales-growth-title">📊 Insight</div>
+    ${[salesInsight(items, 4, 5), salesInsight(items, 5, 6)].map(renderSalesInsightCard).join("")}`;
 }
 
 function renderSalesBreakdowns(items) {
