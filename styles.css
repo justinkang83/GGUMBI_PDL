@@ -1013,25 +1013,89 @@ select,
   padding: 16px 0 0;
 }
 
+.sales-chart-legend {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.sales-chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sales-chart-legend i {
+  width: 18px;
+  height: 10px;
+  border-radius: 4px;
+}
+
+.legend-actual {
+  background: linear-gradient(90deg, var(--blue), var(--teal));
+}
+
+.legend-target {
+  border: 2px dashed #18a999;
+  background: rgba(24, 169, 153, 0.08);
+}
+
 .bar {
   height: 240px;
   display: grid;
   align-content: end;
-  gap: 8px;
+  gap: 6px;
+}
+
+.bar-stack {
+  position: relative;
+  height: 210px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .bar i {
   display: block;
   min-height: 4px;
+}
+
+.actual-bar {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 108px;
   border-radius: 7px 7px 2px 2px;
   background: linear-gradient(180deg, var(--blue), var(--teal));
 }
 
+.target-bar {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 50%;
+  width: min(100%, 108px);
+  transform: translateX(-50%);
+  border: 2px dashed #18a999;
+  border-radius: 8px 8px 3px 3px;
+  background: rgba(24, 169, 153, 0.08);
+}
+
 .bar strong,
-.bar span {
+.bar span,
+.bar small {
   text-align: center;
   overflow-wrap: anywhere;
   font-size: 12px;
+}
+
+.bar small {
+  color: #0f766e;
+  font-weight: 900;
 }
 
 .bar span {

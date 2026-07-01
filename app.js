@@ -22,6 +22,13 @@ function money(value) {
   return `${numberFmt.format(Math.round(Number(value) || 0))}원`;
 }
 
+function numericValue(value) {
+  if (typeof value === "number") return value;
+  if (typeof value !== "string") return 0;
+  const normalized = value.replace(/[,원\s]/g, "").replace(/[–-]/g, "");
+  return Number(normalized) || 0;
+}
+
 function shortMoney(value) {
   const num = Number(value) || 0;
   if (num >= 100000000) return `${(num / 100000000).toFixed(1).replace(".0", "")}억`;
@@ -240,9 +247,49 @@ function monthlySalesFromProjects(items) {
   return Array.from({ length: 12 }, (_, index) => {
     const month = `${index + 1}월`;
     const key = `${month} 매출`;
-    const value = items.reduce((sum, item) => sum + (Number(item[key]) || 0), 0);
-    return { 월: month, 누적매출: value };
+    const value = items.reduce((sum, item) => sum + numericValue(item[key]), 0);
+    return { 월: month, 누적매출: value, 목표매출: monthlySalesTarget(index + 1, items) };
   });
+}
+
+function monthNumber(value) {
+  const match = String(value || "").match(/(\d{1,2})/);
+  return match ? Number(match[1]) : 0;
+}
+
+function targetValueFromRow(row, month, allowGeneric = true) {
+  if (!row) return 0;
+  const exactKeys = [
+    `${month}월 목표매출`,
+    `${month}월 목표 매출`,
+    `${month}월 목표`,
+    `${month}월 목표금액`,
+    `${month}월 매출목표`,
+    `${month}월 매출 목표`,
+  ];
+  for (const key of exactKeys) {
+    const value = numericValue(row[key]);
+    if (value > 0) return value;
+  }
+  if (!allowGeneric) return 0;
+  const targetKey = Object.keys(row).find((key) => key.includes("목표") && !key.includes("달성"));
+  return targetKey ? numericValue(row[targetKey]) : 0;
+}
+
+function monthlySalesTarget(month, items) {
+  const projectTarget = items.reduce((sum, item) => sum + targetValueFromRow(item, month, false), 0);
+  if (projectTarget > 0) return projectTarget;
+
+  const salesRow = sales.find((row) => monthNumber(row["월"]) === month);
+  const salesTarget = targetValueFromRow(salesRow, month);
+  if (salesTarget > 0) return salesTarget;
+
+  const fallbackTargets = {
+    7: 154933417,
+    8: 323700923,
+    9: 295359642,
+  };
+  return fallbackTargets[month] || 0;
 }
 
 function salesInsight(items, fromMonth, toMonth) {
@@ -293,15 +340,30 @@ function renderSalesInsightCard(insight) {
 
 function renderMonthlySales(items) {
   const monthlyRows = monthlySalesFromProjects(items);
-  const max = Math.max(...monthlyRows.map((item) => Number(item["누적매출"]) || 0), 1);
+  const max = Math.max(
+    ...monthlyRows.map((item) => Math.max(Number(item["누적매출"]) || 0, Number(item["목표매출"]) || 0)),
+    1
+  );
   const total = monthlyRows.reduce((sum, item) => sum + (Number(item["누적매출"]) || 0), 0);
   $("salesTotal").textContent = `합계 ${money(total)}`;
-  $("monthlyChart").innerHTML = monthlyRows
+  $("monthlyChart").innerHTML = `<div class="sales-chart-legend">
+      <span><i class="legend-actual"></i>실매출</span>
+      <span><i class="legend-target"></i>목표매출</span>
+    </div>` + monthlyRows
     .map((item) => {
       const value = Number(item["누적매출"]) || 0;
+      const target = Number(item["목표매출"]) || 0;
       const height = Math.max((value / max) * 210, value ? 12 : 4);
-      return `<div class="bar" title="${item["월"]} ${money(value)}">
-        <i style="height:${height}px"></i>
+      const targetHeight = Math.max((target / max) * 210, target ? 12 : 0);
+      const title = target
+        ? `${item["월"]} 실매출 ${money(value)} / 목표 ${money(target)}`
+        : `${item["월"]} ${money(value)}`;
+      return `<div class="bar ${target ? "has-target" : ""}" title="${title}">
+        <div class="bar-stack">
+          ${target ? `<i class="target-bar" style="height:${targetHeight}px"></i>` : ""}
+          <i class="actual-bar" style="height:${height}px"></i>
+        </div>
+        ${target ? `<small>목표 ${shortMoney(target)}</small>` : ""}
         <strong>${shortMoney(value)}</strong>
         <span>${item["월"]}</span>
       </div>`;
