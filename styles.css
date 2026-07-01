@@ -436,7 +436,8 @@ select,
 }
 
 .wide,
-.table-panel {
+.table-panel,
+.pipeline-panel {
   grid-column: span 2;
 }
 

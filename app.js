@@ -273,16 +273,19 @@ function renderSalesBreakdowns(items) {
     return [`${index + 1}월`, items.reduce((sum, item) => sum + (Number(item[key]) || 0), 0)];
   }).filter((entry) => entry[1] > 0);
 
-  $("topProducts").innerHTML = productTop
-    .map((item, index) => `<div class="top-row">
-      <em>${index + 1}</em>
-      <div>
-        <strong>${item["상품명"]}</strong>
-        <span>${item["브랜드"] || "-"} · ${item["런칭일"] || "런칭일 미정"}</span>
-      </div>
-      <b>${shortMoney(annualRevenue(item))}</b>
-    </div>`)
-    .join("");
+  const topProducts = $("topProducts");
+  if (topProducts) {
+    topProducts.innerHTML = productTop
+      .map((item, index) => `<div class="top-row">
+        <em>${index + 1}</em>
+        <div>
+          <strong>${item["상품명"]}</strong>
+          <span>${item["브랜드"] || "-"} · ${item["런칭일"] || "런칭일 미정"}</span>
+        </div>
+        <b>${shortMoney(annualRevenue(item))}</b>
+      </div>`)
+      .join("");
+  }
 
   $("brandSales").innerHTML = brandRows
     .map(([brand, value]) => `<div class="mini-row"><span>${brand}</span><strong>${shortMoney(value)}</strong></div>`)
