@@ -345,7 +345,14 @@ function renderMonthlySales(items) {
     1
   );
   const total = monthlyRows.reduce((sum, item) => sum + (Number(item["누적매출"]) || 0), 0);
-  $("salesTotal").textContent = `합계 ${money(total)}`;
+  const forecastTotal = monthlyRows.reduce((sum, item, index) => {
+    const month = index + 1;
+    if (month >= 4 && month <= 6) return sum + (Number(item["누적매출"]) || 0);
+    if (month >= 7 && month <= 12) return sum + (Number(item["목표매출"]) || 0);
+    return sum;
+  }, 0);
+  $("salesTotal").textContent = `실매출 합계 ${money(total)}`;
+  $("salesForecastTotal").textContent = `4~6월 실매출 + 7~12월 목표 ${money(forecastTotal)}`;
   $("monthlyChart").innerHTML = monthlyRows
     .map((item) => {
       const value = Number(item["누적매출"]) || 0;

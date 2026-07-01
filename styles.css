@@ -460,6 +460,24 @@ select,
   font-size: 13px;
 }
 
+.sales-total-stack {
+  flex: 0 0 auto;
+  display: grid;
+  gap: 5px;
+  text-align: right;
+}
+
+.sales-total-stack span {
+  color: #5b6b83;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.sales-total-stack span:last-child {
+  color: #078064;
+}
+
 .panel-link {
   flex: 0 0 auto;
   border: 1px solid var(--line);

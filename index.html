@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>꿈비 신상품개발연구소 프로젝트 진행현황</title>
-    <link rel="stylesheet" href="styles.css?v=sales-target6" />
+    <link rel="stylesheet" href="styles.css?v=sales-forecast1" />
   </head>
   <body>
     <section id="loginScreen" class="login-screen" aria-label="로그인">
@@ -135,7 +135,10 @@
                 <h2>💰 올해 누적매출</h2>
                 <p>월별 매출 흐름과 상품/브랜드별 기여도를 함께 봅니다.</p>
               </div>
-              <span id="salesTotal">합계 0원</span>
+              <div class="sales-total-stack">
+                <span id="salesTotal">실매출 합계 0원</span>
+                <span id="salesForecastTotal">4~6월 실매출 + 7~12월 목표 0원</span>
+              </div>
             </div>
             <div class="sales-chart-legend" aria-label="매출 그래프 범례">
               <span><i class="legend-actual"></i>실매출</span>
@@ -283,6 +286,6 @@
     </div>
 
     <script src="data/dashboard-data.js?v=labels1"></script>
-    <script src="app.js?v=sales-target6"></script>
+    <script src="app.js?v=sales-forecast1"></script>
   </body>
 </html>
