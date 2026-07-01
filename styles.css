@@ -798,6 +798,108 @@ select,
   color: var(--ink);
 }
 
+.cost-insight {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.cost-insight-title {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.cost-insight-card {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.65fr) minmax(0, 1fr);
+  gap: 14px;
+  border: 1px solid #dbe9e6;
+  border-radius: 8px;
+  padding: 13px;
+  background: linear-gradient(135deg, #fbfffb, #f6fbff);
+}
+
+.cost-insight-summary,
+.cost-insight-list {
+  min-width: 0;
+}
+
+.cost-insight-summary span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.cost-insight-summary strong {
+  display: block;
+  margin-top: 8px;
+  color: #078064;
+  font-size: 21px;
+  line-height: 1.1;
+}
+
+.cost-insight-summary em {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.cost-insight-list {
+  border-left: 1px solid #dbe9e6;
+  padding-left: 14px;
+}
+
+.cost-insight-list h3 {
+  margin: 0 0 8px;
+  font-size: 13px;
+}
+
+.cost-insight-list p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.cost-insight-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 0;
+  border-top: 1px solid #edf3f1;
+}
+
+.cost-insight-row:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.cost-insight-row span {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cost-insight-row strong {
+  color: #126456;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.cost-insight-row em {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
 .cert-row {
   min-height: 44px;
   display: grid;
@@ -1251,11 +1353,16 @@ th {
     align-items: start;
   }
 
+  .cost-insight-card {
+    grid-template-columns: 1fr;
+  }
+
   .sales-growth-card b {
     justify-self: start;
   }
 
-  .growth-contributors {
+  .growth-contributors,
+  .cost-insight-list {
     border-left: 0;
     border-top: 1px solid #dbe9e6;
     padding-top: 12px;
