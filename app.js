@@ -363,7 +363,7 @@ function renderMonthlySales(items) {
           ${target ? `<i class="target-bar" style="height:${targetHeight}px"></i>` : ""}
           <i class="actual-bar" style="height:${height}px"></i>
         </div>
-        ${target ? `<small>목표 ${shortMoney(target)}</small>` : ""}
+        <small class="${target ? "" : "empty-label"}">${target ? `목표 ${shortMoney(target)}` : "&nbsp;"}</small>
         ${value ? `<strong>${shortMoney(value)}</strong>` : ""}
         <span>${item["월"]}</span>
       </div>`;

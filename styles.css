@@ -1106,6 +1106,10 @@ select,
   font-weight: 900;
 }
 
+.bar small.empty-label {
+  visibility: hidden;
+}
+
 .bar span {
   color: var(--muted);
 }
