@@ -1110,6 +1110,10 @@ select,
   visibility: hidden;
 }
 
+.bar strong.empty-label {
+  visibility: hidden;
+}
+
 .bar span {
   color: var(--muted);
 }
