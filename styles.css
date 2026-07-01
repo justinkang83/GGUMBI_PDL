@@ -735,6 +735,41 @@ select,
   line-height: 1.35;
 }
 
+.dev-status-list {
+  display: grid;
+  gap: 10px;
+}
+
+.dev-status-list section {
+  border: 1px solid #e3ebe9;
+  border-left: 5px solid var(--teal);
+  border-radius: 10px;
+  padding: 12px;
+  background: #fbfdfc;
+}
+
+.dev-status-list h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.dev-status-list ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.dev-status-list li {
+  margin-bottom: 5px;
+  line-height: 1.45;
+}
+
+.dev-status-list li:last-child {
+  margin-bottom: 0;
+}
+
 .owner-board {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
