@@ -249,6 +249,11 @@ function renderMonthlySales(items) {
   const monthlyRows = monthlySalesFromProjects(items);
   const max = Math.max(...monthlyRows.map((item) => Number(item["누적매출"]) || 0), 1);
   const total = monthlyRows.reduce((sum, item) => sum + (Number(item["누적매출"]) || 0), 0);
+  const aprilSales = Number(monthlyRows[3]?.["누적매출"]) || 0;
+  const maySales = Number(monthlyRows[4]?.["누적매출"]) || 0;
+  const growthAmount = maySales - aprilSales;
+  const growthRate = aprilSales ? (growthAmount / aprilSales) * 100 : 0;
+  const growthTone = growthAmount >= 0 ? "up" : "down";
   $("salesTotal").textContent = `합계 ${money(total)}`;
   $("monthlyChart").innerHTML = monthlyRows
     .map((item) => {
@@ -261,6 +266,12 @@ function renderMonthlySales(items) {
       </div>`;
     })
     .join("");
+  $("salesGrowth").innerHTML = `<div class="sales-growth-card ${growthTone}">
+    <span>4월 → 5월 매출 증감</span>
+    <strong>${growthAmount >= 0 ? "+" : ""}${percent(growthRate)}</strong>
+    <em>${shortMoney(aprilSales)} → ${shortMoney(maySales)}</em>
+    <b>${growthAmount >= 0 ? "+" : ""}${money(growthAmount)} ${growthAmount >= 0 ? "증가" : "감소"}</b>
+  </div>`;
 }
 
 function renderSalesBreakdowns(items) {
