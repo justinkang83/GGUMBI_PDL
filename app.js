@@ -560,8 +560,6 @@ function renderSchedules(items) {
   const productionThisMonth = items
     .filter((item) => item["개발단계"] !== "런칭" && isCurrentMonthOrSoon(item["예상입고일"]))
     .sort((a, b) => String(a["예상입고일"]).localeCompare(String(b["예상입고일"])));
-  const certIssues = items.filter((item) => ["진행중", "진행예정"].includes(item["인증상태"]));
-  const costIssues = items.filter((item) => Number(item["원가율"]) >= 0.55);
   const reports = [
     {
       title: "런칭 예정",
@@ -574,20 +572,6 @@ function renderSchedules(items) {
       count: productionThisMonth.length,
       tone: "teal",
       rows: productionThisMonth.map((item) => `${item["예상입고일"]} · ${item["상품명"]}`),
-    },
-    {
-      title: "인증 진행/예정",
-      count: certIssues.length,
-      tone: "amber",
-      rows: certIssues.map((item) => `${item["인증상태"]} · ${item["상품명"]}`),
-    },
-    {
-      title: "원가율 관리",
-      count: costIssues.length,
-      tone: "red",
-      rows: costIssues
-        .sort((a, b) => (Number(b["원가율"]) || 0) - (Number(a["원가율"]) || 0))
-        .map((item) => `${costPercent(item["원가율"])} · ${item["상품명"]}`),
     },
   ];
 
