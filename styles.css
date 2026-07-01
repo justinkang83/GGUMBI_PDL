@@ -669,6 +669,14 @@ select,
   grid-template-columns: 1fr;
 }
 
+.cost-panel .cost-band-board {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.cost-panel .cost-insight {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .report-card {
   padding: 13px;
   border: 1px solid #e3ebe9;
@@ -1455,7 +1463,9 @@ th {
   .hero-grid,
   .filters,
   .main-grid,
-  .sales-breakdown {
+  .sales-breakdown,
+  .cost-panel .cost-band-board,
+  .cost-panel .cost-insight {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -1476,6 +1486,8 @@ th {
   .pipeline-board,
   .sales-growth,
   .sales-breakdown,
+  .cost-panel .cost-band-board,
+  .cost-panel .cost-insight,
   .calendar-list,
   .owner-board {
     grid-template-columns: 1fr;
