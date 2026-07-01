@@ -486,6 +486,88 @@ select,
   object-fit: contain;
 }
 
+.dev-schedule-insight {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.insight-block {
+  border: 1px solid #dbe9e6;
+  border-radius: 8px;
+  padding: 14px;
+  background: linear-gradient(135deg, #fbfffb, #f6fbff);
+}
+
+.insight-block h3,
+.insight-block h4 {
+  margin: 0;
+  color: var(--ink);
+}
+
+.insight-block h3 {
+  font-size: 17px;
+}
+
+.insight-block h4 {
+  font-size: 14px;
+}
+
+.schedule-change-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.schedule-change-grid span {
+  border: 1px solid #e3ebe9;
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff;
+  color: #41566f;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.schedule-change-grid strong {
+  color: var(--ink);
+}
+
+.schedule-change-list {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.schedule-change-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 0.45fr) minmax(0, 1fr);
+  gap: 12px;
+  border-top: 1px solid #edf3f1;
+  padding-top: 8px;
+  color: #41566f;
+  font-size: 13px;
+}
+
+.schedule-change-list li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.schedule-change-list strong {
+  color: var(--ink);
+}
+
+.insight-note p {
+  margin: 10px 0 0;
+  color: #41566f;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
 .pipeline-board {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1347,6 +1429,11 @@ th {
 
   .bar-chart {
     grid-template-columns: repeat(6, minmax(36px, 1fr));
+  }
+
+  .schedule-change-grid,
+  .schedule-change-list li {
+    grid-template-columns: 1fr;
   }
 
   .sales-growth-card {

@@ -488,7 +488,6 @@ function renderOwners(items) {
 
 function renderSchedules(items) {
   const nowMonth = new Date().getMonth() + 1;
-  const monthLabel = `${nowMonth}월`;
   const launchThisMonth = items
     .filter((item) => item["개발단계"] !== "런칭" && isCurrentMonthOrSoon(item["런칭일"]))
     .sort((a, b) => String(a["런칭일"]).localeCompare(String(b["런칭일"])));
@@ -497,8 +496,6 @@ function renderSchedules(items) {
     .sort((a, b) => String(a["예상입고일"]).localeCompare(String(b["예상입고일"])));
   const certIssues = items.filter((item) => ["진행중", "진행예정"].includes(item["인증상태"]));
   const costIssues = items.filter((item) => Number(item["원가율"]) >= 0.55);
-  const salesItems = items.filter((item) => Number(item[`${nowMonth}월 매출`]) > 0);
-
   const reports = [
     {
       title: "런칭 예정",
@@ -525,14 +522,6 @@ function renderSchedules(items) {
       rows: costIssues
         .sort((a, b) => (Number(b["원가율"]) || 0) - (Number(a["원가율"]) || 0))
         .map((item) => `${costPercent(item["원가율"])} · ${item["상품명"]}`),
-    },
-    {
-      title: `${monthLabel} 매출 발생`,
-      count: salesItems.length,
-      tone: "slate",
-      rows: salesItems
-        .sort((a, b) => (Number(b[`${nowMonth}월 매출`]) || 0) - (Number(a[`${nowMonth}월 매출`]) || 0))
-        .map((item) => `${shortMoney(item[`${nowMonth}월 매출`])} · ${item["상품명"]}`),
     },
   ];
 
