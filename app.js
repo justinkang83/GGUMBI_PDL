@@ -375,85 +375,28 @@ function renderPipeline(items) {
     .join("");
 }
 
-function costImpactItems(items) {
-  return items
-    .map((item) => {
-      const importCost = Number(item["수입원가"]) || 0;
-      const landedCost = Number(item["판매원가"]) || 0;
-      const impact = landedCost - importCost;
-      return {
-        name: item["상품명"],
-        impact,
-        impactRate: importCost ? (impact / importCost) * 100 : 0,
-      };
-    })
-    .filter((item) => item.impact > 0)
-    .sort((a, b) => b.impact - a.impact);
-}
-
-function launchedPriceItems(items) {
-  return items
-    .filter((item) => item["개발단계"] === "런칭" && Number(item["판가"]) > 0 && Number(item["원가율"]) > 0)
-    .map((item) => ({
-      name: item["상품명"],
-      price: Number(item["판가"]) || 0,
-      rate: Number(item["원가율"]) || 0,
-      revenue: annualRevenue(item),
-    }))
-    .sort((a, b) => b.revenue - a.revenue);
-}
-
-function renderCostInsight(items) {
-  const exchangeItems = costImpactItems(items);
-  const launchedItems = launchedPriceItems(items);
-  const exchangeTotal = exchangeItems.reduce((sum, item) => sum + item.impact, 0);
-  const launchedRevenue = launchedItems.reduce((sum, item) => sum + item.revenue, 0);
-  const avgLaunchedCost = launchedItems.reduce((sum, item) => sum + item.rate, 0) / (launchedItems.length || 1);
-  const medals = ["🥇", "🥈", "🥉"];
-
+function renderCostInsight() {
   $("costInsight").innerHTML = `<div class="cost-insight-title">📊 원가 Insight</div>
     <section class="cost-insight-card">
       <div class="cost-insight-summary">
         <span>상승 환율 반영</span>
-        <strong>+${money(exchangeTotal)}</strong>
-        <em>판매원가 - 수입원가 기준</em>
+        <strong>수입원가 소폭 상승</strong>
+        <em>환율 변동 영향</em>
       </div>
       <div class="cost-insight-list">
-        <h3>영향 TOP3</h3>
-        ${
-          exchangeItems.slice(0, 3).length
-            ? exchangeItems
-                .slice(0, 3)
-                .map((item, index) => `<div class="cost-insight-row">
-                  <span>${medals[index]} ${item.name}</span>
-                  <strong>+${money(item.impact)}</strong>
-                  <em>+${percent(item.impactRate)}</em>
-                </div>`)
-                .join("")
-            : "<p>환율 반영 영향 데이터 없음</p>"
-        }
+        <h3>관리 포인트</h3>
+        <p>상승한 환율을 적용하면서 일부 품목의 수입원가가 소폭 상승한 부분이 원가율에 반영되었습니다.</p>
       </div>
     </section>
     <section class="cost-insight-card">
       <div class="cost-insight-summary">
         <span>실제 판매단가 적용</span>
-        <strong>${costPercent(avgLaunchedCost)}</strong>
-        <em>런칭 ${numberFmt.format(launchedItems.length)}개 · 매출 ${shortMoney(launchedRevenue)}</em>
+        <strong>원가율 변동 반영</strong>
+        <em>런칭 완료 품목 기준</em>
       </div>
       <div class="cost-insight-list">
-        <h3>매출 반영 TOP3</h3>
-        ${
-          launchedItems.slice(0, 3).length
-            ? launchedItems
-                .slice(0, 3)
-                .map((item, index) => `<div class="cost-insight-row">
-                  <span>${medals[index]} ${item.name}</span>
-                  <strong>${shortMoney(item.revenue)}</strong>
-                  <em>판가 ${money(item.price)} · ${costPercent(item.rate)}</em>
-                </div>`)
-                .join("")
-            : "<p>런칭 품목 판매단가 데이터 없음</p>"
-        }
+        <h3>관리 포인트</h3>
+        <p>실제 런칭된 제품은 실제 판매단가를 적용하여 원가율이 변동된 부분을 함께 확인해야 합니다.</p>
       </div>
     </section>`;
 }
@@ -499,7 +442,7 @@ function renderCostBands(items) {
       </section>`;
     })
     .join("");
-  renderCostInsight(valid);
+  renderCostInsight();
 }
 
 function renderOwners(items) {
