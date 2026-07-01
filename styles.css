@@ -473,20 +473,16 @@ select,
 }
 
 .launch-map {
-  display: none !important;
+  display: block;
   overflow: hidden;
   border: 1px solid #e3ebe9;
   border-radius: 10px;
   background: #fbfdfc;
 }
 
-.panel-link[href*="launch-calendar-map"] {
-  display: none !important;
-}
-
 .launch-map img {
-  display: none !important;
   width: 100%;
+  display: block;
   object-fit: contain;
 }
 
