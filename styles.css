@@ -1005,23 +1005,20 @@ select,
 }
 
 .bar-chart {
-  position: relative;
   min-height: 290px;
   display: grid;
   grid-template-columns: repeat(12, minmax(34px, 1fr));
   align-items: end;
-  gap: 10px;
-  padding: 42px 0 0;
+  gap: 12px 10px;
+  padding: 16px 0 0;
 }
 
 .sales-chart-legend {
-  position: absolute;
-  top: 6px;
-  right: 0;
-  z-index: 5;
+  grid-column: 1 / -1;
   display: flex;
   justify-content: flex-end;
   gap: 14px;
+  justify-self: end;
   border: 1px solid #e3ebe9;
   border-radius: 999px;
   padding: 6px 9px;
